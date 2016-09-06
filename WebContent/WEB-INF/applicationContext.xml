@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+    <bean id="defaultDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close" lazy-init="true" singleton="true">
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+
+        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/jtechydb"/>
+        <property name="user" value="root"/>
+        <property name="password" value="root123"/>
+    </bean>
+
+    <bean id="hbSessionFactory"
+          class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"
+          lazy-init="true">
+        <property name="dataSource" ref="defaultDataSource"/>
+        <property name="mappingResources">
+            <list>
+                 <value>in/co/jtechy/web/models/User.hbm.xml</value>   
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.show_sql">true</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+        <property name="sessionFactory" ref="hbSessionFactory"/>
+    </bean>
+
+    <bean id="userDAO" class="in.co.jtechy.web.daos.UserDAO">
+        <property name="hibernateTemplate" ref="hibernateTemplate"/>
+    </bean>
+
+    <bean id="userService" class="in.co.jtechy.web.services.UserService">
+        <property name="userDAO" ref="userDAO"/>
+    </bean>
+
+    <bean id="userAction" class="in.co.jtechy.web.actions.UserAction" singleton="false">
+        <property name="userService" ref="userService" />            
+    </bean>
+</beans>

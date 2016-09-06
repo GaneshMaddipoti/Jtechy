@@ -1,0 +1,25 @@
+#headerDiv{
+	font-family: Ubuntu;
+/* 	width: 60%; */
+	font-size: small;
+	margin:auto;
+	background-color: #0066CC;
+	color: white;
+	border-radius: 10px;
+}
+a:link{
+	color: white;
+}
+a:visited {
+    color: white;
+}
+#headerTable{
+	width:100%;
+}
+#coverBody{
+	margin-top:0px;
+}
+#headerLabel{
+	font-size: xx-large;
+	margin-left: 20px;
+}
